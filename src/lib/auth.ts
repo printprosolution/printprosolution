@@ -28,34 +28,26 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) {
-          return null;
-        }
+  if (!credentials?.username || !credentials?.password) {
+    return null;
+  }
 
-        const validUsername = process.env.ADMIN_USERNAME;
-        const validPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+  const validUsername = 'asadmughal8626';
+  const validPassword = '031234567890*@';
 
-        if (!validUsername || !validPasswordHash) {
-          throw new Error(
-            "Admin credentials are not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD_HASH in .env"
-          );
-        }
+  if (credentials.username !== validUsername) {
+    return null;
+  }
 
-        if (credentials.username !== validUsername) {
-          return null;
-        }
+  if (credentials.password !== validPassword) {
+    return null;
+  }
 
-        const passwordMatches = await bcrypt.compare(
-          credentials.password,
-          validPasswordHash
-        );
+  // Minimal user object stored in the JWT/session.
+  return { id: "admin", name: validUsername, email: "admin@printprolahore.com" };
+},
 
-        if (!passwordMatches) {
-          return null;
-        }
-
-        // Minimal user object stored in the JWT/session.
-        return { id: "admin", name: validUsername, email: "admin@printprolahore.com" };
+    
       },
     }),
   ],
