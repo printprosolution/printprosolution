@@ -1,0 +1,96 @@
+// PrintPro Solutions Lahore — Prisma schema
+// Database: SQLite (file-based, zero-config, perfect for a single-server VPS
+// deployment; swap the datasource to postgresql for Vercel + Neon/Supabase
+// if you outgrow SQLite — see README "Deploying to Vercel").
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Products — photocopiers / printers available for rent or sale
+// ---------------------------------------------------------------------------
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  price       Float // monthly rental price in PKR
+  priceLabel  String   @default("/month") // e.g. "/month", "one-time"
+  category    String   @default("Photocopier") // Photocopier | Printer | Toner | Accessory
+  description String
+  imageUrl    String // path under /uploads/... or an external https URL
+  featured    Boolean  @default(false)
+  inStock     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+}
+
+// ---------------------------------------------------------------------------
+// Testimonials shown on the homepage
+// ---------------------------------------------------------------------------
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  company   String
+  message   String
+  rating    Int      @default(5) // 1-5
+  imageUrl  String? // optional client / avatar photo
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Contact form submissions — visible in the admin dashboard
+// ---------------------------------------------------------------------------
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// SiteContent — a single editable row holding every piece of copy that the
+// admin dashboard can change (hero text, about text, contact details, SEO).
+// We always read/write the row with id = "main".
+// ---------------------------------------------------------------------------
+model SiteContent {
+  id String @id @default("main")
+
+  // Branding / SEO
+  companyName String @default("PrintPro Solutions Lahore")
+  seoTitle    String @default("PrintPro Solutions Lahore | Photocopier & Printer Rental in Pakistan")
+  seoDescription String @default("PrintPro Solutions Lahore is a leading photocopier and printer rental company in Pakistan, supplying Ricoh, Xerox and Canon copiers on rent to banks, universities and offices, with toner supply, on-site repair and PaperCut print management.")
+  seoKeywords String @default("photocopier rental Lahore, printer rental Pakistan, Ricoh 3510 on rent, Xerox photocopier rental, copier rental for banks, copier rental for universities, PaperCut Pakistan, toner supply Lahore, printer repair Lahore, best photocopier rental company Pakistan")
+
+  // Homepage hero
+  heroTitle    String @default("Photocopier & Printer Rental You Can Rely On")
+  heroSubtitle String @default("PrintPro Solutions Lahore supplies and maintains Ricoh, Xerox and Canon photocopiers for banks, universities and corporate offices across Pakistan, on flexible monthly rental plans with same-day support.")
+  heroImageUrl String @default("https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=1920&auto=format&fit=crop")
+
+  // About page
+  aboutTitle    String @default("Pakistan's Trusted Photocopier Rental Partner")
+  aboutText     String @default("For over a decade, PrintPro Solutions Lahore has been supplying, renting and maintaining photocopiers and printers for banks, universities, schools and corporate offices across Pakistan. We specialise in high-volume machines like the Ricoh MP 3510 and Xerox WorkCentre series, backed by genuine toner supply, on-site repair and PaperCut print-management integration, so your office never stops printing.")
+  aboutImageUrl String @default("https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1600&auto=format&fit=crop")
+
+  // Services intro (individual services are defined in code, this is the
+  // page intro paragraph so it stays editable from the dashboard)
+  servicesIntro String @default("From monthly photocopier rental to enterprise print-management with PaperCut, we cover every stage of your office printing needs, sales, service and support, all under one roof in Lahore.")
+
+  // Contact information
+  contactName    String @default("Asad Mughal")
+  contactPhone   String @default("0335-1720842")
+  contactEmail   String @default("info@printprolahore.com")
+  contactAddress String @default("Lahore, Pakistan")
+
+  updatedAt DateTime @updatedAt
+}
