@@ -33,40 +33,41 @@ export async function updateSiteContent(
   const seoTitle = String(formData.get("seoTitle") || "").trim();
   const seoDescription = String(formData.get("seoDescription") || "").trim();
   const seoKeywords = String(formData.get("seoKeywords") || "").trim();
+  const statMachines = Number(formData.get("statMachines") || 500);
+  const statClients = Number(formData.get("statClients") || 150);
+  const statYears = Number(formData.get("statYears") || 10);
+  const statRetention = Number(formData.get("statRetention") || 98);
+  const paperCutTitle = String(formData.get("paperCutTitle") || "").trim();
+  const paperCutText = String(formData.get("paperCutText") || "").trim();
 
   if (!companyName || !heroTitle || !heroSubtitle) {
     return { success: false, error: "Company name, hero title and subtitle are required." };
   }
 
+  const data = {
+    companyName,
+    heroTitle,
+    heroSubtitle,
+    heroImageUrl,
+    aboutTitle,
+    aboutText,
+    aboutImageUrl,
+    servicesIntro,
+    seoTitle,
+    seoDescription,
+    seoKeywords,
+    statMachines,
+    statClients,
+    statYears,
+    statRetention,
+    paperCutTitle,
+    paperCutText,
+  };
+
   await prisma.siteContent.upsert({
     where: { id: "main" },
-    update: {
-      companyName,
-      heroTitle,
-      heroSubtitle,
-      heroImageUrl,
-      aboutTitle,
-      aboutText,
-      aboutImageUrl,
-      servicesIntro,
-      seoTitle,
-      seoDescription,
-      seoKeywords,
-    },
-    create: {
-      id: "main",
-      companyName,
-      heroTitle,
-      heroSubtitle,
-      heroImageUrl,
-      aboutTitle,
-      aboutText,
-      aboutImageUrl,
-      servicesIntro,
-      seoTitle,
-      seoDescription,
-      seoKeywords,
-    },
+    update: data,
+    create: { id: "main", ...data },
   });
 
   // Every public page reads SiteContent, so revalidate the whole site.

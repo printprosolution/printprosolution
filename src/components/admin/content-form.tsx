@@ -88,6 +88,45 @@ export function ContentForm({ content }: { content: SiteContent }) {
       </Card>
 
       <Card>
+        <CardHeader><CardTitle>Homepage Growth Stats</CardTitle></CardHeader>
+        <CardContent className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="statMachines">Machines Supplied</Label>
+            <Input id="statMachines" name="statMachines" type="number" min="0" defaultValue={content.statMachines} />
+          </div>
+          <div>
+            <Label htmlFor="statClients">Business Clients</Label>
+            <Input id="statClients" name="statClients" type="number" min="0" defaultValue={content.statClients} />
+          </div>
+          <div>
+            <Label htmlFor="statYears">Years of Service</Label>
+            <Input id="statYears" name="statYears" type="number" min="0" defaultValue={content.statYears} />
+          </div>
+          <div>
+            <Label htmlFor="statRetention">Client Retention (%)</Label>
+            <Input id="statRetention" name="statRetention" type="number" min="0" max="100" defaultValue={content.statRetention} />
+          </div>
+          <p className="col-span-2 text-xs text-slate-500">
+            These numbers animate upward on the homepage when a visitor scrolls to them.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader><CardTitle>PaperCut Highlight Section</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="paperCutTitle">Section Title</Label>
+            <Input id="paperCutTitle" name="paperCutTitle" defaultValue={content.paperCutTitle} />
+          </div>
+          <div>
+            <Label htmlFor="paperCutText">Section Text</Label>
+            <Textarea id="paperCutText" name="paperCutText" rows={4} defaultValue={content.paperCutText} />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
         <CardHeader>
           <CardTitle>SEO Settings</CardTitle>
         </CardHeader>

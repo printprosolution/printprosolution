@@ -1,15 +1,13 @@
 import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 
 /**
- * Single hard-coded admin account, backed by env vars so the real
- * credentials never live in source control.
+ * Single admin account. Session strategy is JWT with a 30-day lifetime,
+ * so once logged in, the admin stays logged in on that browser until the
+ * session naturally expires or they click "Logout".
  *
- * Session strategy is JWT with a 30-day lifetime, so once the admin logs
- * in they stay logged in (cookie persists across browser restarts) and
- * are never asked for the password again until it naturally expires or
- * they hit "Logout".
+ * To change the username/password later: edit validUsername /
+ * validPassword below, save this file, then push to GitHub as usual.
  */
 export const authOptions: NextAuthOptions = {
   session: {
@@ -28,26 +26,22 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-  if (!credentials?.username || !credentials?.password) {
-    return null;
-  }
+        if (!credentials?.username || !credentials?.password) {
+          return null;
+        }
 
-  const validUsername = 'asadmughal8626';
-  const validPassword = '031234567890*@';
+        const validUsername = "asadmughal8626";
+        const validPassword = "031234567890*@";
 
-  if (credentials.username !== validUsername) {
-    return null;
-  }
+        if (credentials.username !== validUsername) {
+          return null;
+        }
+        if (credentials.password !== validPassword) {
+          return null;
+        }
 
-  if (credentials.password !== validPassword) {
-    return null;
-  }
-
-  // Minimal user object stored in the JWT/session.
-  return { id: "admin", name: validUsername, email: "admin@printprolahore.com" };
-},
-
-    
+        return { id: "admin", name: validUsername, email: "admin@printprolahore.com" };
+      },
     }),
   ],
   callbacks: {

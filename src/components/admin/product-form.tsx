@@ -94,7 +94,7 @@ export function ProductForm({
         <Textarea id="description" name="description" defaultValue={product?.description} required />
       </div>
 
-      <ImageUploader name="imageUrl" label="Product Image" defaultValue={product?.imageUrl} />
+      <ImageUploader name="imageUrl" label="Product Image" defaultValue={product?.imageUrl} required />
 
       <div className="flex gap-6">
         <label className="flex items-center gap-2 text-sm text-slate-700">

@@ -126,6 +126,39 @@ async function main() {
     }
   }
 
+
+  // ---- Services (homepage + /services section) --------------------------
+  const services = [
+    {
+      title: "Photocopier Rental (Monthly)",
+      description: "Ricoh, Xerox and Canon photocopiers on flexible monthly rental plans — no heavy upfront investment.",
+      imageUrl: "https://images.unsplash.com/photo-1612815154858-60aa4c59eabd?q=80&w=1200&auto=format&fit=crop",
+      order: 1,
+    },
+    {
+      title: "Toner & Pages Supply",
+      description: "Genuine and compatible toner, drums and consumables delivered across Lahore, on schedule.",
+      imageUrl: "https://images.unsplash.com/photo-1585313319701-b2e5b3f1a5f4?q=80&w=1200&auto=format&fit=crop",
+      order: 2,
+    },
+    {
+      title: "On-site Repair & Maintenance",
+      description: "Certified technicians for same-day breakdown support and scheduled preventive maintenance.",
+      imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop",
+      order: 3,
+    },
+    {
+      title: "Bulk Printer/Copier Deals",
+      description: "Volume pricing for banks, universities and large offices needing multiple units.",
+      imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+      order: 4,
+    },
+  ];
+  for (const s of services) {
+    const existing = await prisma.service.findFirst({ where: { title: s.title } });
+    if (!existing) await prisma.service.create({ data: s });
+  }
+
   console.log("Database seeded successfully.");
 }
 

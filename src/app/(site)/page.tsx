@@ -4,47 +4,22 @@ import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { AnimatedCounter } from "@/components/animated-counter";
 import {
-  Copy,
   Wrench,
-  Package,
   ShieldCheck,
   Clock,
   BadgeCheck,
   Star,
   ArrowRight,
-  Printer,
+  Building2,
+  Users,
+  Award,
+  ThumbsUp,
+  PrinterCheck,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
-
-const services = [
-  {
-    icon: Copy,
-    title: "Photocopier Rental (Monthly)",
-    desc: "Ricoh, Xerox and Canon photocopiers on flexible monthly rental plans — no heavy upfront investment.",
-  },
-  {
-    icon: Package,
-    title: "Toner & Pages Supply",
-    desc: "Genuine and compatible toner, drums and consumables delivered across Lahore, on schedule.",
-  },
-  {
-    icon: Wrench,
-    title: "On-site Repair & Maintenance",
-    desc: "Certified technicians for same-day breakdown support and scheduled preventive maintenance.",
-  },
-  {
-    icon: Printer,
-    title: "Bulk Printer/Copier Deals",
-    desc: "Volume pricing for banks, universities and large offices needing multiple units — GCS-style bulk deals.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "PaperCut Software Integration",
-    desc: "Track, control and cut printing costs with PaperCut print-management, configured and supported end-to-end.",
-  },
-];
 
 const whyUs = [
   { icon: Clock, title: "Same-Day Support", desc: "Engineers dispatched across Lahore within hours of your call." },
@@ -54,7 +29,7 @@ const whyUs = [
 ];
 
 export default async function HomePage() {
-  const [content, featuredProducts, testimonials] = await Promise.all([
+  const [content, featuredProducts, testimonials, services, clientLogos] = await Promise.all([
     prisma.siteContent.upsert({
       where: { id: "main" },
       update: {},
@@ -66,7 +41,16 @@ export default async function HomePage() {
       orderBy: { createdAt: "desc" },
     }),
     prisma.testimonial.findMany({ take: 6, orderBy: { createdAt: "desc" } }),
+    prisma.service.findMany({ orderBy: { order: "asc" } }),
+    prisma.clientLogo.findMany({ orderBy: { order: "asc" } }),
   ]);
+
+  const stats = [
+    { icon: Building2, value: content.statMachines, suffix: "+", label: "Machines Supplied" },
+    { icon: Users, value: content.statClients, suffix: "+", label: "Business Clients" },
+    { icon: Award, value: content.statYears, suffix: "+", label: "Years of Service" },
+    { icon: ThumbsUp, value: content.statRetention, suffix: "%", label: "Client Retention" },
+  ];
 
   return (
     <>
@@ -102,6 +86,7 @@ export default async function HomePage() {
               alt="Photocopier and printer rental in Lahore, Pakistan"
               fill
               priority
+              unoptimized
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
@@ -124,25 +109,66 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="section bg-slate-50">
-        <div className="container mx-auto">
-          <div className="mx-auto mb-14 max-w-2xl text-center">
-            <h2 className="text-3xl md:text-4xl">Our Services</h2>
-            <p className="mt-4 text-slate-600">{content.servicesIntro}</p>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {services.map((s) => (
-              <Card key={s.title} className="transition-shadow hover:shadow-premium">
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary-50">
-                    <s.icon className="h-6 w-6 text-primary-600" />
+      {/* SERVICES (admin-editable, images from database) */}
+      {services.length > 0 && (
+        <section className="section bg-slate-50">
+          <div className="container mx-auto">
+            <div className="mx-auto mb-14 max-w-2xl text-center">
+              <h2 className="text-3xl md:text-4xl">Our Services</h2>
+              <p className="mt-4 text-slate-600">{content.servicesIntro}</p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((s) => (
+                <Card key={s.id} className="overflow-hidden transition-shadow hover:shadow-premium">
+                  <div className="relative h-44 w-full">
+                    <Image src={s.imageUrl} alt={s.title} fill unoptimized className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                   </div>
-                  <h3 className="mb-2 text-base">{s.title}</h3>
-                  <p className="text-sm text-slate-600">{s.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
+                  <CardContent className="pt-5">
+                    <h3 className="mb-2 text-base">{s.title}</h3>
+                    <p className="text-sm text-slate-600">{s.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* PAPERCUT HIGHLIGHT — deliberately a different accent color (teal)
+          so it stands out from the rest of the blue-themed site */}
+      <section className="section bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 text-white">
+        <div className="container mx-auto grid items-center gap-12 md:grid-cols-2">
+          <div>
+            <div className="mb-6 inline-flex items-center gap-3 rounded-xl bg-white px-5 py-3 shadow-lg">
+              <PrinterCheck className="h-7 w-7 text-teal-600" />
+              <span className="text-xl font-black tracking-tight text-teal-700">PaperCut<span className="text-slate-400">®</span></span>
+            </div>
+            <h2 className="text-3xl text-white md:text-4xl">{content.paperCutTitle}</h2>
+            <p className="mt-5 text-teal-50">{content.paperCutText}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">PaperCut NG</span>
+              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">PaperCut MF</span>
+              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">PaperCut Hive</span>
+            </div>
+            <Link href="/services#papercut">
+              <Button size="lg" variant="white" className="mt-8 text-teal-700">
+                Learn More <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-xl bg-white/10 p-5">
+              <h4 className="mb-1 text-sm font-bold text-white">PaperCut NG</h4>
+              <p className="text-xs text-teal-50">Next-Gen print management for schools, universities and businesses of any size.</p>
+            </div>
+            <div className="rounded-xl bg-white/10 p-5">
+              <h4 className="mb-1 text-sm font-bold text-white">PaperCut MF</h4>
+              <p className="text-xs text-teal-50">Turns your copier's touchscreen into a secure release station and scanning hub.</p>
+            </div>
+            <div className="col-span-2 rounded-xl bg-white/10 p-5">
+              <h4 className="mb-1 text-sm font-bold text-white">Full Setup &amp; Support Included</h4>
+              <p className="text-xs text-teal-50">Installation, quota configuration and ongoing support handled entirely by our team.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -161,7 +187,7 @@ export default async function HomePage() {
               {featuredProducts.map((p) => (
                 <Card key={p.id} className="overflow-hidden">
                   <div className="relative h-52 w-full">
-                    <Image src={p.imageUrl} alt={p.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                    <Image src={p.imageUrl} alt={p.name} fill unoptimized className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                   </div>
                   <CardContent className="pt-5">
                     <h3 className="mb-1 text-base">{p.name}</h3>
@@ -178,7 +204,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* WHY US */}
+      {/* WHY US + ANIMATED STATS */}
       <section className="section bg-primary-900 text-white">
         <div className="container mx-auto">
           <h2 className="mb-14 text-center text-3xl text-white md:text-4xl">Why Choose PrintPro?</h2>
@@ -193,8 +219,41 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+
+          <div className="mt-16 grid grid-cols-2 gap-8 border-t border-white/10 pt-14 md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <s.icon className="mx-auto mb-3 h-8 w-8 text-blue-200" />
+                <p className="text-4xl font-extrabold text-white">
+                  <AnimatedCounter target={s.value} suffix={s.suffix} />
+                </p>
+                <p className="mt-1 text-sm text-blue-100">{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* CLIENT LOGOS — "Trusted By" strip */}
+      {clientLogos.length > 0 && (
+        <section className="border-b border-slate-100 bg-white py-14">
+          <div className="container mx-auto">
+            <p className="mb-8 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
+              Trusted By Businesses Across Pakistan
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+              {clientLogos.map((c) => (
+                <div key={c.id} className="flex flex-col items-center gap-2 grayscale transition hover:grayscale-0">
+                  <div className="relative h-12 w-28">
+                    <Image src={c.logoUrl} alt={c.name} fill unoptimized className="object-contain" />
+                  </div>
+                  <span className="text-xs font-medium text-slate-400">{c.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* TESTIMONIALS */}
       {testimonials.length > 0 && (

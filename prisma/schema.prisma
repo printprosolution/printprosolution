@@ -33,6 +33,31 @@ model Product {
 }
 
 // ---------------------------------------------------------------------------
+// Services — the cards shown in the "Our Services" section (homepage +
+// /services page). Admin-editable so images/text can change without code.
+// ---------------------------------------------------------------------------
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String
+  order       Int      @default(0) // lower shows first
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Client logos — "Trusted By" strip on the homepage
+// ---------------------------------------------------------------------------
+model ClientLogo {
+  id        String   @id @default(cuid())
+  name      String // company name, shown under/beside the logo
+  logoUrl   String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
 // Testimonials shown on the homepage
 // ---------------------------------------------------------------------------
 model Testimonial {
@@ -91,6 +116,16 @@ model SiteContent {
   contactPhone   String @default("0335-1720842")
   contactEmail   String @default("info@printprolahore.com")
   contactAddress String @default("Lahore, Pakistan")
+
+  // Homepage "growth" stats — shown as animated counters
+  statMachines  Int @default(500) // "500+ Machines Supplied"
+  statClients   Int @default(150) // "150+ Business Clients"
+  statYears     Int @default(10)  // "10+ Years of Service"
+  statRetention Int @default(98)  // "98% Client Retention"
+
+  // PaperCut highlight section
+  paperCutTitle String @default("Certified PaperCut Print Management")
+  paperCutText  String @default("We install, configure and support PaperCut NG and PaperCut MF across your entire fleet — giving you full visibility into who prints what, enforceable quotas, secure pull-printing, and detailed cost-center reporting. Trusted by universities and enterprises worldwide, and fully integrated with every Ricoh and Xerox machine we deploy.")
 
   updatedAt DateTime @updatedAt
 }
