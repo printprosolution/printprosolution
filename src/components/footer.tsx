@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
 
 interface FooterProps {
@@ -7,6 +8,7 @@ interface FooterProps {
   contactEmail: string;
   contactAddress: string;
   companyName: string;
+  logoUrl: string;
 }
 
 export function Footer({
@@ -15,23 +17,19 @@ export function Footer({
   contactEmail,
   contactAddress,
   companyName,
+  logoUrl,
 }: FooterProps) {
   return (
     <footer className="bg-slate-900 text-slate-300">
       <div className="container mx-auto grid gap-10 py-16 md:grid-cols-4">
         <div>
-          <div className="mb-4 flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-base font-black text-white">
-              P
-            </div>
-            <span className="text-base font-extrabold text-white">
-              {companyName}
-            </span>
+          <div className="relative mb-4 h-10 w-40">
+            <Image src={logoUrl} alt={companyName} fill unoptimized className="object-contain object-left brightness-0 invert" />
           </div>
           <p className="text-sm leading-relaxed text-slate-400">
             Photocopier and printer rental, toner supply, on-site repair and
-            PaperCut print-management for banks, universities and offices
-            across Pakistan.
+            certified PaperCut print-management for banks, universities and
+            offices across Pakistan.
           </p>
         </div>
 
@@ -56,7 +54,7 @@ export function Footer({
             <li>Toner &amp; Pages Supply</li>
             <li>On-site Repair &amp; Maintenance</li>
             <li>Bulk Printer/Copier Deals</li>
-            <li>PaperCut Software Integration</li>
+            <li>PaperCut NG / MF Integration</li>
           </ul>
         </div>
 

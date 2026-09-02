@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, PrinterCheck, ShieldCheck, Users, FileBarChart, Lock } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Users, FileBarChart, Lock } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -64,9 +64,10 @@ export default async function ServicesPage() {
       <section id="papercut" className="bg-gradient-to-b from-slate-900 to-teal-950 py-20 text-white">
         <div className="container mx-auto">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mx-auto mb-6 inline-flex items-center gap-3 rounded-xl bg-white px-6 py-3 shadow-lg">
-              <PrinterCheck className="h-8 w-8 text-teal-600" />
-              <span className="text-2xl font-black tracking-tight text-teal-700">PaperCut<span className="text-slate-400">®</span></span>
+            <div className="mx-auto mb-6 inline-flex items-center rounded-xl bg-white px-6 py-4 shadow-lg">
+              <div className="relative h-10 w-48">
+                <Image src="/logos/papercut-mark.png" alt="PaperCut" fill unoptimized className="object-contain" />
+              </div>
             </div>
             <h2 className="text-3xl text-white md:text-4xl">{content.paperCutTitle}</h2>
             <p className="mt-5 text-teal-100">{content.paperCutText}</p>
@@ -83,21 +84,21 @@ export default async function ServicesPage() {
           </div>
 
           <div className="mx-auto mt-14 max-w-4xl rounded-2xl border border-teal-400/30 bg-teal-500/10 p-8">
-            <p className="mb-5 text-center text-xs font-bold uppercase tracking-widest text-teal-200">
+            <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-teal-200">
               Editions We Deploy
             </p>
-            <div className="grid gap-6 sm:grid-cols-3">
-              <div className="text-center">
-                <p className="text-lg font-bold text-white">PaperCut NG</p>
-                <p className="mt-1 text-xs text-teal-100">Print management for organisations of any size</p>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="rounded-xl bg-white p-5 text-center">
+                <div className="relative mx-auto mb-3 h-9 w-36">
+                  <Image src="/logos/papercut-mf.png" alt="PaperCut MF" fill unoptimized className="object-contain" />
+                </div>
+                <p className="text-xs text-teal-950">Turns copier touchscreens into secure release stations</p>
               </div>
-              <div className="text-center">
-                <p className="text-lg font-bold text-white">PaperCut MF</p>
-                <p className="mt-1 text-xs text-teal-100">Turns copier touchscreens into secure release stations</p>
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-bold text-white">PaperCut Hive</p>
-                <p className="mt-1 text-xs text-teal-100">Cloud-based print management, zero servers required</p>
+              <div className="rounded-xl bg-white p-5 text-center">
+                <div className="relative mx-auto mb-3 h-9 w-36">
+                  <Image src="/logos/papercut-hive.png" alt="PaperCut Hive" fill unoptimized className="object-contain" />
+                </div>
+                <p className="text-xs text-teal-950">Cloud-based print management, zero servers required</p>
               </div>
             </div>
           </div>

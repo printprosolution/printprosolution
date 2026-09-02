@@ -23,7 +23,8 @@ model Product {
   priceLabel  String   @default("/month") // e.g. "/month", "one-time"
   category    String   @default("Photocopier") // Photocopier | Printer | Toner | Accessory
   description String
-  imageUrl    String // path under /uploads/... or an external https URL
+  specs       String? // newline-separated spec lines, e.g. "35 ppm\nDuplex printing\nA3 support"
+  imageUrl    String // base64 data URL or an external https URL
   featured    Boolean  @default(false)
   inStock     Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -92,13 +93,19 @@ model SiteContent {
   id String @id @default("main")
 
   // Branding / SEO
-  companyName String @default("PrintPro Solutions Lahore")
-  seoTitle    String @default("PrintPro Solutions Lahore | Photocopier & Printer Rental in Pakistan")
-  seoDescription String @default("PrintPro Solutions Lahore is a leading photocopier and printer rental company in Pakistan, supplying Ricoh, Xerox and Canon copiers on rent to banks, universities and offices, with toner supply, on-site repair and PaperCut print management.")
-  seoKeywords String @default("photocopier rental Lahore, printer rental Pakistan, Ricoh 3510 on rent, Xerox photocopier rental, copier rental for banks, copier rental for universities, PaperCut Pakistan, toner supply Lahore, printer repair Lahore, best photocopier rental company Pakistan")
+  companyName String @default("G Documents Solution")
+  logoUrl     String @default("/logos/company-logo.png")
+  seoTitle    String @default("G Documents Solution | Rental Photocopier Service in Pakistan")
+  seoDescription String @default("G Documents Solution offers the best rental photocopier service in Pakistan, supplying Ricoh, Xerox and Canon copiers on rent for banks, universities and offices in Lahore, with toner supply, on-site repair and certified PaperCut print management.")
+  seoKeywords String @default("rental photocopier service in Pakistan, photocopier rental Lahore, printer rental Pakistan, Ricoh 3510 on rent, Xerox photocopier rental, copier rental for banks, copier rental for universities, PaperCut NG MF Pakistan, toner supply Lahore, printer repair Lahore, best photocopier rental company Pakistan")
+
+  // About Us / Our Vision / Our Mission / Our Promise (shown on homepage)
+  visionText  String @default("To be Pakistan's most trusted name in office printing technology — the first company businesses think of when they need a photocopier they can rely on.")
+  missionText String @default("To keep every client printing without interruption, through genuine equipment, honest pricing, and support that actually shows up.")
+  promiseText String @default("If your machine goes down, we're on-site the same day. No excuses, no long waits — that's our commitment to every client we serve.")
 
   // Homepage hero
-  heroTitle    String @default("Photocopier & Printer Rental You Can Rely On")
+  heroTitle    String @default("Pakistan’s Trusted Rental Photocopier Service")
   heroSubtitle String @default("PrintPro Solutions Lahore supplies and maintains Ricoh, Xerox and Canon photocopiers for banks, universities and corporate offices across Pakistan, on flexible monthly rental plans with same-day support.")
   heroImageUrl String @default("https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=1920&auto=format&fit=crop")
 

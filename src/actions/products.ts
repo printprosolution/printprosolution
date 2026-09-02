@@ -30,6 +30,7 @@ export async function createProduct(
   const priceLabel = String(formData.get("priceLabel") || "/month").trim();
   const category = String(formData.get("category") || "Photocopier").trim();
   const description = String(formData.get("description") || "").trim();
+  const specs = String(formData.get("specs") || "").trim() || null;
   const imageUrl = String(formData.get("imageUrl") || "").trim();
   const featured = formData.get("featured") === "on";
   const inStock = formData.get("inStock") === "on";
@@ -45,7 +46,7 @@ export async function createProduct(
   }
 
   await prisma.product.create({
-    data: { name, slug, price, priceLabel, category, description, imageUrl, featured, inStock },
+    data: { name, slug, price, priceLabel, category, description, specs, imageUrl, featured, inStock },
   });
 
   revalidatePath("/");
@@ -68,6 +69,7 @@ export async function updateProduct(
   const priceLabel = String(formData.get("priceLabel") || "/month").trim();
   const category = String(formData.get("category") || "Photocopier").trim();
   const description = String(formData.get("description") || "").trim();
+  const specs = String(formData.get("specs") || "").trim() || null;
   const imageUrl = String(formData.get("imageUrl") || "").trim();
   const featured = formData.get("featured") === "on";
   const inStock = formData.get("inStock") === "on";
@@ -78,7 +80,7 @@ export async function updateProduct(
 
   await prisma.product.update({
     where: { id },
-    data: { name, price, priceLabel, category, description, imageUrl, featured, inStock },
+    data: { name, price, priceLabel, category, description, specs, imageUrl, featured, inStock },
   });
 
   revalidatePath("/");

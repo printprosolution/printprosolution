@@ -23,10 +23,11 @@ export default async function SiteLayout({
 
   return (
     <>
-      <Navbar contactPhone={content.contactPhone} />
+      <Navbar contactPhone={content.contactPhone} companyName={content.companyName} logoUrl={content.logoUrl} />
       <main className="min-h-screen">{children}</main>
       <Footer
         companyName={content.companyName}
+        logoUrl={content.logoUrl}
         contactName={content.contactName}
         contactPhone={content.contactPhone}
         contactEmail={content.contactEmail}

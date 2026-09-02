@@ -94,6 +94,12 @@ export function ProductForm({
         <Textarea id="description" name="description" defaultValue={product?.description} required />
       </div>
 
+      <div>
+        <Label htmlFor="specs">Specifications (one per line, optional)</Label>
+        <Textarea id="specs" name="specs" rows={5} placeholder={"35 pages per minute\nDuplex printing\nA3 paper support\nWi-Fi connectivity"} defaultValue={product?.specs || ""} />
+        <p className="mt-1 text-xs text-slate-500">Each line shows as a bullet point on the product page.</p>
+      </div>
+
       <ImageUploader name="imageUrl" label="Product Image" defaultValue={product?.imageUrl} required />
 
       <div className="flex gap-6">

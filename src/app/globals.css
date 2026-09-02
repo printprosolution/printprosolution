@@ -38,11 +38,11 @@
   }
 
   .gradient-hero {
-    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #3b82f6 100%);
+    background: linear-gradient(135deg, #0a0f20 0%, #1b2a56 55%, #2c3f7c 100%);
   }
 
   .text-gradient {
-    background: linear-gradient(90deg, #2563eb, #1e40af);
+    background: linear-gradient(90deg, #1b2a56, #0a0f20);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

@@ -22,13 +22,13 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#2563EB", // premium corporate blue
-          50: "#EFF4FF",
-          100: "#DBE6FE",
-          600: "#2563EB",
-          700: "#1D4ED8",
-          800: "#1E40AF",
-          900: "#1E3A8A",
+          DEFAULT: "#1B2A56", // deep navy blue, matched to the company logo
+          50: "#EEF1FA",
+          100: "#D7DEF0",
+          600: "#1B2A56",
+          700: "#141F42",
+          800: "#0F1730",
+          900: "#0A0F20",
           foreground: "#FFFFFF",
         },
         secondary: {

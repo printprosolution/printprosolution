@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone } from "lucide-react";
@@ -15,7 +16,13 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Navbar({ contactPhone }: { contactPhone: string }) {
+interface NavbarProps {
+  contactPhone: string;
+  companyName: string;
+  logoUrl: string;
+}
+
+export function Navbar({ contactPhone, companyName, logoUrl }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -23,12 +30,9 @@ export function Navbar({ contactPhone }: { contactPhone: string }) {
     <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur">
       <div className="container mx-auto flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600 text-lg font-black text-white">
-            P
+          <div className="relative h-10 w-36 shrink-0">
+            <Image src={logoUrl} alt={companyName} fill unoptimized className="object-contain object-left" priority />
           </div>
-          <span className="text-lg font-extrabold text-slate-900">
-            PrintPro <span className="text-primary-600">Solutions</span>
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

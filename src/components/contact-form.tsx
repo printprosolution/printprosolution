@@ -19,7 +19,7 @@ function SubmitButton() {
   );
 }
 
-export function ContactForm() {
+export function ContactForm({ defaultMessage }: { defaultMessage?: string } = {}) {
   const [state, formAction] = useFormState(submitContactMessage, initialState);
 
   return (
@@ -57,6 +57,7 @@ export function ContactForm() {
           id="message"
           name="message"
           placeholder="Tell us what you need — e.g. number of copiers, monthly page volume, location..."
+          defaultValue={defaultMessage}
           required
         />
       </div>

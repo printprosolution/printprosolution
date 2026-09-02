@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { AnimatedCounter } from "@/components/animated-counter";
 import {
-  Wrench,
   ShieldCheck,
   Clock,
   BadgeCheck,
@@ -16,7 +15,9 @@ import {
   Users,
   Award,
   ThumbsUp,
-  PrinterCheck,
+  Eye,
+  Target,
+  HeartHandshake,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -52,6 +53,12 @@ export default async function HomePage() {
     { icon: ThumbsUp, value: content.statRetention, suffix: "%", label: "Client Retention" },
   ];
 
+  const aboutBlocks = [
+    { icon: Eye, title: "Our Vision", text: content.visionText },
+    { icon: Target, title: "Our Mission", text: content.missionText },
+    { icon: HeartHandshake, title: "Our Promise", text: content.promiseText },
+  ];
+
   return (
     <>
       {/* HERO */}
@@ -59,7 +66,7 @@ export default async function HomePage() {
         <div className="container mx-auto grid items-center gap-12 py-20 md:grid-cols-2 md:py-28">
           <div>
             <Badge className="mb-6 border-white/20 bg-white/10 text-white">
-              #1 Photocopier Rental Company in Lahore, Pakistan
+              Pakistan's Leading Rental Photocopier Service
             </Badge>
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
               {content.heroTitle}
@@ -83,7 +90,7 @@ export default async function HomePage() {
           <div className="relative h-72 w-full overflow-hidden rounded-2xl shadow-2xl md:h-96">
             <Image
               src={content.heroImageUrl}
-              alt="Photocopier and printer rental in Lahore, Pakistan"
+              alt="Rental photocopier service in Pakistan"
               fill
               priority
               unoptimized
@@ -105,7 +112,30 @@ export default async function HomePage() {
           <span className="text-slate-300">•</span>
           <span>Copier Rental for Universities</span>
           <span className="text-slate-300">•</span>
-          <span>PaperCut Certified Setup</span>
+          <span>Certified PaperCut Setup</span>
+        </div>
+      </section>
+
+      {/* ABOUT US / VISION / MISSION / PROMISE */}
+      <section className="section">
+        <div className="container mx-auto">
+          <div className="mx-auto mb-14 max-w-2xl text-center">
+            <h2 className="text-3xl md:text-4xl">About Us</h2>
+            <p className="mt-4 text-slate-600">{content.aboutText}</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {aboutBlocks.map((b) => (
+              <Card key={b.title}>
+                <CardContent className="pt-6">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary-50">
+                    <b.icon className="h-6 w-6 text-primary-600" />
+                  </div>
+                  <h3 className="mb-2 text-base">{b.title}</h3>
+                  <p className="text-sm text-slate-600">{b.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -134,40 +164,36 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* PAPERCUT HIGHLIGHT — deliberately a different accent color (teal)
-          so it stands out from the rest of the blue-themed site */}
-      <section className="section bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 text-white">
+      {/* PAPERCUT HIGHLIGHT — real official logos, distinct teal accent so
+          it visually reads as a specialist partnership, not just another service */}
+      <section className="section bg-gradient-to-br from-teal-800 via-teal-700 to-cyan-700 text-white">
         <div className="container mx-auto grid items-center gap-12 md:grid-cols-2">
           <div>
-            <div className="mb-6 inline-flex items-center gap-3 rounded-xl bg-white px-5 py-3 shadow-lg">
-              <PrinterCheck className="h-7 w-7 text-teal-600" />
-              <span className="text-xl font-black tracking-tight text-teal-700">PaperCut<span className="text-slate-400">®</span></span>
+            <div className="mb-6 inline-flex items-center rounded-xl bg-white px-5 py-3 shadow-lg">
+              <div className="relative h-9 w-40">
+                <Image src="/logos/papercut-mark.png" alt="PaperCut" fill unoptimized className="object-contain object-left" />
+              </div>
             </div>
             <h2 className="text-3xl text-white md:text-4xl">{content.paperCutTitle}</h2>
             <p className="mt-5 text-teal-50">{content.paperCutText}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">PaperCut NG</span>
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">PaperCut MF</span>
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">PaperCut Hive</span>
-            </div>
             <Link href="/services#papercut">
               <Button size="lg" variant="white" className="mt-8 text-teal-700">
                 Learn More <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-xl bg-white/10 p-5">
-              <h4 className="mb-1 text-sm font-bold text-white">PaperCut NG</h4>
-              <p className="text-xs text-teal-50">Next-Gen print management for schools, universities and businesses of any size.</p>
+          <div className="space-y-4">
+            <div className="rounded-xl bg-white p-5">
+              <div className="relative h-10 w-36">
+                <Image src="/logos/papercut-mf.png" alt="PaperCut MF" fill unoptimized className="object-contain object-left" />
+              </div>
+              <p className="mt-3 text-xs text-teal-950">Turns your copier's touchscreen into a secure release station and scanning hub.</p>
             </div>
-            <div className="rounded-xl bg-white/10 p-5">
-              <h4 className="mb-1 text-sm font-bold text-white">PaperCut MF</h4>
-              <p className="text-xs text-teal-50">Turns your copier's touchscreen into a secure release station and scanning hub.</p>
-            </div>
-            <div className="col-span-2 rounded-xl bg-white/10 p-5">
-              <h4 className="mb-1 text-sm font-bold text-white">Full Setup &amp; Support Included</h4>
-              <p className="text-xs text-teal-50">Installation, quota configuration and ongoing support handled entirely by our team.</p>
+            <div className="rounded-xl bg-white p-5">
+              <div className="relative h-10 w-36">
+                <Image src="/logos/papercut-hive.png" alt="PaperCut Hive" fill unoptimized className="object-contain object-left" />
+              </div>
+              <p className="mt-3 text-xs text-teal-950">Cloud-based print management for organisations of any size, zero servers required.</p>
             </div>
           </div>
         </div>
@@ -185,19 +211,21 @@ export default async function HomePage() {
             </div>
             <div className="grid gap-8 md:grid-cols-3">
               {featuredProducts.map((p) => (
-                <Card key={p.id} className="overflow-hidden">
-                  <div className="relative h-52 w-full">
-                    <Image src={p.imageUrl} alt={p.name} fill unoptimized className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-                  </div>
-                  <CardContent className="pt-5">
-                    <h3 className="mb-1 text-base">{p.name}</h3>
-                    <p className="mb-3 line-clamp-2 text-sm text-slate-600">{p.description}</p>
-                    <p className="text-lg font-bold text-primary-700">
-                      Rs. {p.price.toLocaleString("en-PK")}
-                      <span className="text-sm font-normal text-slate-500">{p.priceLabel}</span>
-                    </p>
-                  </CardContent>
-                </Card>
+                <Link key={p.id} href={`/products/${p.slug}`}>
+                  <Card className="h-full overflow-hidden transition-shadow hover:shadow-premium">
+                    <div className="relative flex h-52 w-full items-center justify-center bg-slate-50">
+                      <Image src={p.imageUrl} alt={p.name} fill unoptimized className="object-contain p-4" sizes="(max-width: 768px) 100vw, 33vw" />
+                    </div>
+                    <CardContent className="pt-5">
+                      <h3 className="mb-1 text-base">{p.name}</h3>
+                      <p className="mb-3 line-clamp-2 text-sm text-slate-600">{p.description}</p>
+                      <p className="text-lg font-bold text-primary-700">
+                        Rs. {p.price.toLocaleString("en-PK")}
+                        <span className="text-sm font-normal text-slate-500">{p.priceLabel}</span>
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
@@ -207,7 +235,7 @@ export default async function HomePage() {
       {/* WHY US + ANIMATED STATS */}
       <section className="section bg-primary-900 text-white">
         <div className="container mx-auto">
-          <h2 className="mb-14 text-center text-3xl text-white md:text-4xl">Why Choose PrintPro?</h2>
+          <h2 className="mb-14 text-center text-3xl text-white md:text-4xl">Why Choose Us?</h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {whyUs.map((w) => (
               <div key={w.title} className="text-center">
@@ -234,10 +262,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CLIENT LOGOS — "Trusted By" strip */}
+      {/* OUR CLIENTS — "Trusted By" strip */}
       {clientLogos.length > 0 && (
         <section className="border-b border-slate-100 bg-white py-14">
           <div className="container mx-auto">
+            <h2 className="mb-2 text-center text-2xl">Our Clients</h2>
             <p className="mb-8 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
               Trusted By Businesses Across Pakistan
             </p>
@@ -255,11 +284,11 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* TESTIMONIALS */}
+      {/* TESTIMONIALS / REVIEWS */}
       {testimonials.length > 0 && (
         <section className="section bg-slate-50">
           <div className="container mx-auto">
-            <h2 className="mb-14 text-center text-3xl md:text-4xl">What Our Clients Say</h2>
+            <h2 className="mb-14 text-center text-3xl md:text-4xl">Client Reviews</h2>
             <div className="grid gap-8 md:grid-cols-3">
               {testimonials.slice(0, 3).map((t) => (
                 <Card key={t.id}>

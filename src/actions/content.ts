@@ -23,6 +23,10 @@ export async function updateSiteContent(
   await requireAdmin();
 
   const companyName = String(formData.get("companyName") || "").trim();
+  const logoUrl = String(formData.get("logoUrl") || "").trim();
+  const visionText = String(formData.get("visionText") || "").trim();
+  const missionText = String(formData.get("missionText") || "").trim();
+  const promiseText = String(formData.get("promiseText") || "").trim();
   const heroTitle = String(formData.get("heroTitle") || "").trim();
   const heroSubtitle = String(formData.get("heroSubtitle") || "").trim();
   const heroImageUrl = String(formData.get("heroImageUrl") || "").trim();
@@ -46,6 +50,10 @@ export async function updateSiteContent(
 
   const data = {
     companyName,
+    logoUrl,
+    visionText,
+    missionText,
+    promiseText,
     heroTitle,
     heroSubtitle,
     heroImageUrl,

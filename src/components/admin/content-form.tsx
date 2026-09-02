@@ -47,6 +47,25 @@ export function ContentForm({ content }: { content: SiteContent }) {
             <Label htmlFor="companyName">Company Name</Label>
             <Input id="companyName" name="companyName" defaultValue={content.companyName} required />
           </div>
+          <ImageUploader name="logoUrl" label="Company Logo" defaultValue={content.logoUrl} required />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader><CardTitle>Vision, Mission &amp; Promise</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="visionText">Our Vision</Label>
+            <Textarea id="visionText" name="visionText" defaultValue={content.visionText} />
+          </div>
+          <div>
+            <Label htmlFor="missionText">Our Mission</Label>
+            <Textarea id="missionText" name="missionText" defaultValue={content.missionText} />
+          </div>
+          <div>
+            <Label htmlFor="promiseText">Our Promise</Label>
+            <Textarea id="promiseText" name="promiseText" defaultValue={content.promiseText} />
+          </div>
         </CardContent>
       </Card>
 

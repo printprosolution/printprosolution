@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: { product?: string } }) {
   const content = await prisma.siteContent.upsert({
     where: { id: "main" },
     update: {},
@@ -76,7 +76,7 @@ export default async function ContactPage() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          <ContactForm />
+          <ContactForm defaultMessage={searchParams.product ? `I would like to enquire about: ${searchParams.product}` : undefined} />
         </div>
       </div>
     </section>
