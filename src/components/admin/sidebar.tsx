@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LogoutButton } from "@/components/admin/logout-button";
+import Image from "next/image";
 
 const links = [
   { href: "/admin/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -27,16 +28,21 @@ const links = [
   { href: "/admin/dashboard/testimonials", label: "Testimonials", icon: Star },
 ];
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  companyName: string;
+  logoUrl: string;
+}
+
+export function AdminSidebar({ companyName, logoUrl }: AdminSidebarProps) {
   const pathname = usePathname();
 
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-slate-800 bg-slate-900 text-slate-300">
       <div className="flex h-16 items-center gap-2 border-b border-slate-800 px-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-sm font-black text-white">
-          P
+        <div className="relative h-8 w-28 shrink-0">
+          <Image src={logoUrl} alt={companyName} fill unoptimized className="object-contain object-left brightness-0 invert" />
         </div>
-        <span className="text-sm font-bold text-white">PrintPro Admin</span>
+        <span className="text-sm font-bold text-white">Admin</span>
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">
