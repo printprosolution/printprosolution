@@ -64,7 +64,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                 </td>
                 <td className="px-4 py-3 text-slate-600">{p.category}</td>
                 <td className="px-4 py-3 text-slate-600">
-                  Rs. {p.price.toLocaleString("en-PK")} {p.priceLabel}
+                  {p.price != null ? `Rs. ${p.price.toLocaleString("en-PK")} ${p.priceLabel}` : "Contact for Price"}
                 </td>
                 <td className="px-4 py-3">
                   <span className={p.inStock ? "text-green-600" : "text-red-600"}>
