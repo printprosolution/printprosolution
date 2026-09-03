@@ -26,17 +26,19 @@ export async function createProduct(
   await requireAdmin();
 
   const name = String(formData.get("name") || "").trim();
-  const price = Number(formData.get("price"));
+  const priceRaw = String(formData.get("price") || "").trim();
+  const price = priceRaw ? Number(priceRaw) : null;
   const priceLabel = String(formData.get("priceLabel") || "/month").trim();
   const category = String(formData.get("category") || "Photocopier").trim();
   const description = String(formData.get("description") || "").trim();
   const specs = String(formData.get("specs") || "").trim() || null;
   const imageUrl = String(formData.get("imageUrl") || "").trim();
+  const images = formData.getAll("images").map((v) => String(v)).filter(Boolean);
   const featured = formData.get("featured") === "on";
   const inStock = formData.get("inStock") === "on";
 
-  if (!name || !price || !description || !imageUrl) {
-    return { success: false, error: "Name, price, description and image are all required." };
+  if (!name || !description || !imageUrl) {
+    return { success: false, error: "Name, description and a main image are required." };
   }
 
   let slug = slugify(name);
@@ -46,7 +48,7 @@ export async function createProduct(
   }
 
   await prisma.product.create({
-    data: { name, slug, price, priceLabel, category, description, specs, imageUrl, featured, inStock },
+    data: { name, slug, price, priceLabel, category, description, specs, imageUrl, images, featured, inStock },
   });
 
   revalidatePath("/");
@@ -65,22 +67,24 @@ export async function updateProduct(
 
   const id = String(formData.get("id") || "");
   const name = String(formData.get("name") || "").trim();
-  const price = Number(formData.get("price"));
+  const priceRaw = String(formData.get("price") || "").trim();
+  const price = priceRaw ? Number(priceRaw) : null;
   const priceLabel = String(formData.get("priceLabel") || "/month").trim();
   const category = String(formData.get("category") || "Photocopier").trim();
   const description = String(formData.get("description") || "").trim();
   const specs = String(formData.get("specs") || "").trim() || null;
   const imageUrl = String(formData.get("imageUrl") || "").trim();
+  const images = formData.getAll("images").map((v) => String(v)).filter(Boolean);
   const featured = formData.get("featured") === "on";
   const inStock = formData.get("inStock") === "on";
 
-  if (!id || !name || !price || !description || !imageUrl) {
-    return { success: false, error: "All fields are required." };
+  if (!id || !name || !description || !imageUrl) {
+    return { success: false, error: "Name, description and a main image are required." };
   }
 
   await prisma.product.update({
     where: { id },
-    data: { name, price, priceLabel, category, description, specs, imageUrl, featured, inStock },
+    data: { name, price, priceLabel, category, description, specs, imageUrl, images, featured, inStock },
   });
 
   revalidatePath("/");

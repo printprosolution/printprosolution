@@ -52,6 +52,20 @@ export function ContactForm({ defaultMessage }: { defaultMessage?: string } = {}
         </div>
       </div>
       <div>
+        <Label htmlFor="type">What is this about?</Label>
+        <select
+          id="type"
+          name="type"
+          defaultValue="General Inquiry"
+          className="flex h-11 w-full rounded-md border border-input bg-white px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600"
+        >
+          <option>General Inquiry</option>
+          <option>Sales / Get a Quote</option>
+          <option>Support / Complaint</option>
+          <option>Print Quota Inquiry</option>
+        </select>
+      </div>
+      <div>
         <Label htmlFor="message">Message</Label>
         <Textarea
           id="message"

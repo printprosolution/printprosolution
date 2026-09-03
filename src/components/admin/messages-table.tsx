@@ -67,6 +67,7 @@ export function MessagesTable({ messages }: { messages: ContactMessage[] }) {
                 {m.phone && <div className="text-xs text-slate-400">{m.phone}</div>}
               </td>
               <td className="max-w-xs px-4 py-3 text-slate-600">
+                <span className="mb-1 inline-block rounded-full bg-primary-50 px-2 py-0.5 text-[10px] font-semibold text-primary-700">{m.type}</span>
                 <p className="line-clamp-2">{m.message}</p>
                 <span className="text-xs font-medium text-primary-600">Tap to read full message</span>
               </td>
@@ -115,8 +116,9 @@ export function MessagesTable({ messages }: { messages: ContactMessage[] }) {
               </button>
             </div>
             <div className="space-y-4 p-6">
-              <div className="text-sm text-slate-500">
+              <div className="flex items-center gap-2 text-sm text-slate-500">
                 {formatDate(openMessage.createdAt)}
+                <span className="rounded-full bg-primary-50 px-2 py-0.5 text-xs font-semibold text-primary-700">{openMessage.type}</span>
               </div>
               <div className="space-y-1 text-sm">
                 <p><span className="font-semibold text-slate-700">Email:</span> {openMessage.email}</p>

@@ -17,20 +17,22 @@ export function ProductCard({ product }: { product: Product }) {
             className="object-contain p-4"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          {!product.inStock && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-sm font-bold text-white">
-              Currently Unavailable
-            </div>
-          )}
         </div>
         <CardContent className="pt-5">
-          <Badge className="mb-3">{product.category}</Badge>
+          <div className="mb-3 flex items-center justify-between">
+            <Badge>{product.category}</Badge>
+            <span className={`flex items-center gap-1.5 text-xs font-semibold ${product.inStock ? "text-green-600" : "text-red-600"}`}>
+              <span className={`h-2 w-2 rounded-full ${product.inStock ? "bg-green-500" : "bg-red-500"}`} />
+              {product.inStock ? "In Stock" : "Out of Stock"}
+            </span>
+          </div>
           <h3 className="mb-1 text-base">{product.name}</h3>
           <p className="mb-4 line-clamp-3 text-sm text-slate-600">{product.description}</p>
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-primary-700">
-              Rs. {product.price.toLocaleString("en-PK")}
-              <span className="text-sm font-normal text-slate-500">{product.priceLabel}</span>
+              {product.price != null
+                ? <>Rs. {product.price.toLocaleString("en-PK")}<span className="text-sm font-normal text-slate-500">{product.priceLabel}</span></>
+                : <span className="text-sm font-semibold text-slate-500">Contact for Price</span>}
             </p>
             <span className="text-sm font-semibold text-primary-600">View Details →</span>
           </div>

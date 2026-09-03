@@ -31,13 +31,14 @@ const links = [
 interface AdminSidebarProps {
   companyName: string;
   logoUrl: string;
+  onNavigate?: () => void;
 }
 
-export function AdminSidebar({ companyName, logoUrl }: AdminSidebarProps) {
+export function AdminSidebar({ companyName, logoUrl, onNavigate }: AdminSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-slate-800 bg-slate-900 text-slate-300">
+    <aside className="flex h-full w-64 shrink-0 flex-col border-r border-slate-800 bg-slate-900 text-slate-300 md:h-screen">
       <div className="flex h-16 items-center gap-2 border-b border-slate-800 px-5">
         <div className="relative h-8 w-28 shrink-0">
           <Image src={logoUrl} alt={companyName} fill unoptimized className="object-contain object-left brightness-0 invert" />
@@ -52,6 +53,7 @@ export function AdminSidebar({ companyName, logoUrl }: AdminSidebarProps) {
             <Link
               key={link.href}
               href={link.href}
+              onClick={onNavigate}
               className={cn(
                 "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
                 active
@@ -70,6 +72,7 @@ export function AdminSidebar({ companyName, logoUrl }: AdminSidebarProps) {
         <Link
           href="/"
           target="_blank"
+          onClick={onNavigate}
           className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white"
         >
           <ExternalLink className="h-4 w-4" />

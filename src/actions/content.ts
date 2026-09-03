@@ -27,6 +27,7 @@ export async function updateSiteContent(
   const visionText = String(formData.get("visionText") || "").trim();
   const missionText = String(formData.get("missionText") || "").trim();
   const promiseText = String(formData.get("promiseText") || "").trim();
+  const achievementsText = String(formData.get("achievementsText") || "").trim();
   const heroTitle = String(formData.get("heroTitle") || "").trim();
   const heroSubtitle = String(formData.get("heroSubtitle") || "").trim();
   const heroImageUrl = String(formData.get("heroImageUrl") || "").trim();
@@ -54,6 +55,7 @@ export async function updateSiteContent(
     visionText,
     missionText,
     promiseText,
+    achievementsText,
     heroTitle,
     heroSubtitle,
     heroImageUrl,

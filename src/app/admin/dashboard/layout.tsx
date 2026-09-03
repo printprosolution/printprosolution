@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import { AdminSidebar } from "@/components/admin/sidebar";
-import { AdminSessionProvider } from "@/components/admin/session-provider";
 import { prisma } from "@/lib/prisma";
+import { AdminShell } from "@/components/admin/admin-shell";
+import { AdminSessionProvider } from "@/components/admin/session-provider";
 
 // Server-side guard (middleware.ts also protects this route, this is a
 // belt-and-braces second check so the layout never even renders content
@@ -27,12 +27,9 @@ export default async function DashboardLayout({
 
   return (
     <AdminSessionProvider>
-      <div className="flex min-h-screen bg-slate-50">
-        <AdminSidebar companyName={content.companyName} logoUrl={content.logoUrl} />
-        <div className="flex-1 overflow-y-auto">
-          <main className="mx-auto max-w-6xl p-8">{children}</main>
-        </div>
-      </div>
+      <AdminShell companyName={content.companyName} logoUrl={content.logoUrl}>
+        {children}
+      </AdminShell>
     </AdminSessionProvider>
   );
 }

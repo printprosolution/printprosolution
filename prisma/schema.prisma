@@ -19,12 +19,13 @@ model Product {
   id          String   @id @default(cuid())
   name        String
   slug        String   @unique
-  price       Float // monthly rental price in PKR
+  price       Float? // monthly rental price in PKR — leave empty for "Contact for Price"
   priceLabel  String   @default("/month") // e.g. "/month", "one-time"
   category    String   @default("Photocopier") // Photocopier | Printer | Toner | Accessory
   description String
   specs       String? // newline-separated spec lines, e.g. "35 ppm\nDuplex printing\nA3 support"
-  imageUrl    String // base64 data URL or an external https URL
+  imageUrl    String // main/cover image — base64 data URL or an external https URL
+  images      String[] @default([]) // additional gallery images (base64 data URLs)
   featured    Boolean  @default(false)
   inStock     Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -79,6 +80,7 @@ model ContactMessage {
   name      String
   email     String
   phone     String?
+  type      String   @default("General Inquiry") // Sales / Support & Complaint / Print Quota / General
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -123,6 +125,9 @@ model SiteContent {
   contactPhone   String @default("0335-1720842")
   contactEmail   String @default("info@printprolahore.com")
   contactAddress String @default("Lahore, Pakistan")
+
+  // Achievements / milestones (newline-separated bullet points)
+  achievementsText String @default("Authorised Ricoh & Xerox rental partner in Lahore\nCertified PaperCut NG/MF integration partner\nServing banks and universities across Pakistan since day one\nSame-day on-site support guarantee")
 
   // Homepage "growth" stats — shown as animated counters
   statMachines  Int @default(500) // "500+ Machines Supplied"

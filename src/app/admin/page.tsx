@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { LoginForm } from "@/components/admin/login-form";
 
 // This is the ONE public entry point into the admin area. It is reached
@@ -15,14 +17,20 @@ export default async function AdminGatePage() {
     redirect("/admin/dashboard");
   }
 
+  const content = await prisma.siteContent.upsert({
+    where: { id: "main" },
+    update: {},
+    create: { id: "main" },
+  });
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary-600 text-2xl font-black text-white">
-            P
+          <div className="relative mx-auto mb-4 h-14 w-56">
+            <Image src={content.logoUrl} alt={content.companyName} fill unoptimized className="object-contain brightness-0 invert" />
           </div>
-          <h1 className="text-xl font-bold text-white">PrintPro Admin</h1>
+          <h1 className="text-xl font-bold text-white">Admin Login</h1>
           <p className="mt-1 text-sm text-slate-400">Restricted area — authorised access only</p>
         </div>
         <LoginForm />

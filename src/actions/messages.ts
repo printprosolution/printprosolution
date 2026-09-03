@@ -21,6 +21,7 @@ export async function submitContactMessage(
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
   const phone = String(formData.get("phone") || "").trim();
+  const type = String(formData.get("type") || "General Inquiry").trim();
   const message = String(formData.get("message") || "").trim();
 
   if (!name || !email || !message) {
@@ -33,7 +34,7 @@ export async function submitContactMessage(
   }
 
   await prisma.contactMessage.create({
-    data: { name, email, phone: phone || null, message },
+    data: { name, email, phone: phone || null, type, message },
   });
 
   // So the admin dashboard's messages table shows the new submission

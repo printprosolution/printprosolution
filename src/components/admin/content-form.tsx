@@ -107,6 +107,14 @@ export function ContentForm({ content }: { content: SiteContent }) {
       </Card>
 
       <Card>
+        <CardHeader><CardTitle>Achievements / Milestones</CardTitle></CardHeader>
+        <CardContent>
+          <Textarea name="achievementsText" rows={5} defaultValue={content.achievementsText} />
+          <p className="mt-1 text-xs text-slate-500">One achievement per line — shown as a checklist on the homepage.</p>
+        </CardContent>
+      </Card>
+
+      <Card>
         <CardHeader><CardTitle>Homepage Growth Stats</CardTitle></CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
           <div>

@@ -7,9 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import { MultiImageUploader } from "@/components/admin/multi-image-uploader";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import type { Product } from "@prisma/client";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 const initialState: ProductFormState = { success: false };
 
@@ -34,6 +36,7 @@ export function ProductForm({
   const action = product ? updateProduct : createProduct;
   const [state, formAction] = useFormState(action, initialState);
   const [category, setCategory] = useState(product?.category || "Photocopier");
+  const [inStock, setInStock] = useState(product?.inStock ?? true);
 
   // Fire onSuccess once the action reports success (e.g. to close a modal).
   useEffect(() => {
@@ -65,8 +68,8 @@ export function ProductForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <Label htmlFor="price">Price (PKR)</Label>
-          <Input id="price" name="price" type="number" min="0" step="1" defaultValue={product?.price} required />
+          <Label htmlFor="price">Price (PKR) — optional</Label>
+          <Input id="price" name="price" type="number" min="0" step="1" defaultValue={product?.price ?? ""} placeholder="Leave blank for 'Contact for Price'" />
         </div>
         <div>
           <Label htmlFor="priceLabel">Price Label</Label>
@@ -100,18 +103,41 @@ export function ProductForm({
         <p className="mt-1 text-xs text-slate-500">Each line shows as a bullet point on the product page.</p>
       </div>
 
-      <ImageUploader name="imageUrl" label="Product Image" defaultValue={product?.imageUrl} required />
+      <ImageUploader name="imageUrl" label="Main Product Image" defaultValue={product?.imageUrl} required />
 
-      <div className="flex gap-6">
-        <label className="flex items-center gap-2 text-sm text-slate-700">
-          <input type="checkbox" name="featured" defaultChecked={product?.featured} className="h-4 w-4 rounded border-slate-300" />
-          Show on homepage (featured)
-        </label>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
-          <input type="checkbox" name="inStock" defaultChecked={product?.inStock ?? true} className="h-4 w-4 rounded border-slate-300" />
-          In stock / available
-        </label>
+      <MultiImageUploader name="images" label="Additional Photos (gallery)" defaultValues={product?.images || []} />
+
+      <div>
+        <Label>Stock Status</Label>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => setInStock(true)}
+            className={cn(
+              "flex items-center justify-center gap-2 rounded-md border py-2.5 text-sm font-semibold transition-colors",
+              inStock ? "border-green-600 bg-green-50 text-green-700" : "border-slate-200 text-slate-500 hover:bg-slate-50"
+            )}
+          >
+            <span className="h-2 w-2 rounded-full bg-green-500" /> In Stock
+          </button>
+          <button
+            type="button"
+            onClick={() => setInStock(false)}
+            className={cn(
+              "flex items-center justify-center gap-2 rounded-md border py-2.5 text-sm font-semibold transition-colors",
+              !inStock ? "border-red-600 bg-red-50 text-red-700" : "border-slate-200 text-slate-500 hover:bg-slate-50"
+            )}
+          >
+            <span className="h-2 w-2 rounded-full bg-red-500" /> Out of Stock
+          </button>
+        </div>
+        <input type="hidden" name="inStock" value={inStock ? "on" : ""} />
       </div>
+
+      <label className="flex items-center gap-2 text-sm text-slate-700">
+        <input type="checkbox" name="featured" defaultChecked={product?.featured} className="h-4 w-4 rounded border-slate-300" />
+        Show on homepage (featured)
+      </label>
 
       <SubmitButton label={product ? "Update Product" : "Add Product"} />
     </form>

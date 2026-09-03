@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ProductGallery } from "@/components/product-gallery";
 import { CheckCircle2, ArrowLeft, MessageCircle } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     .map((s) => s.trim())
     .filter(Boolean);
 
+  const galleryImages = [product.imageUrl, ...(product.images || [])];
+
   const relatedProducts = await prisma.product.findMany({
     where: { category: product.category, NOT: { id: product.id } },
     take: 3,
@@ -44,31 +47,23 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         </Link>
 
         <div className="grid gap-10 md:grid-cols-2">
-          {/* Full, uncropped product image */}
-          <div className="relative flex h-80 w-full items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 p-6 md:h-[480px]">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              fill
-              unoptimized
-              className="object-contain p-6"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            {!product.inStock && (
-              <div className="absolute left-4 top-4">
-                <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white">Currently Unavailable</span>
-              </div>
-            )}
-          </div>
+          <ProductGallery images={galleryImages} alt={product.name} />
 
           <div>
-            <Badge className="mb-4">{product.category}</Badge>
+            <div className="mb-4 flex items-center gap-3">
+              <Badge>{product.category}</Badge>
+              <span className={`flex items-center gap-1.5 text-xs font-semibold ${product.inStock ? "text-green-600" : "text-red-600"}`}>
+                <span className={`h-2 w-2 rounded-full ${product.inStock ? "bg-green-500" : "bg-red-500"}`} />
+                {product.inStock ? "In Stock" : "Out of Stock"}
+              </span>
+            </div>
             <h1 className="text-3xl font-bold text-slate-900 md:text-4xl">{product.name}</h1>
             <p className="mt-4 text-slate-600">{product.description}</p>
 
             <p className="mt-6 text-3xl font-bold text-primary-700">
-              Rs. {product.price.toLocaleString("en-PK")}
-              <span className="text-base font-normal text-slate-500"> {product.priceLabel}</span>
+              {product.price != null
+                ? <>Rs. {product.price.toLocaleString("en-PK")}<span className="text-base font-normal text-slate-500"> {product.priceLabel}</span></>
+                : <span className="text-lg font-semibold text-slate-500">Contact for Price</span>}
             </p>
 
             {specLines.length > 0 && (
@@ -103,7 +98,9 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                     <Image src={p.imageUrl} alt={p.name} fill unoptimized className="object-contain p-2" />
                   </div>
                   <p className="text-sm font-semibold text-slate-900 group-hover:text-primary-600">{p.name}</p>
-                  <p className="text-xs text-slate-500">Rs. {p.price.toLocaleString("en-PK")} {p.priceLabel}</p>
+                  <p className="text-xs text-slate-500">
+                    {p.price != null ? `Rs. ${p.price.toLocaleString("en-PK")} ${p.priceLabel}` : "Contact for Price"}
+                  </p>
                 </Link>
               ))}
             </div>

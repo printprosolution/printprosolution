@@ -18,6 +18,8 @@ import {
   Eye,
   Target,
   HeartHandshake,
+  Trophy,
+  CheckCircle2,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -139,6 +141,30 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ACHIEVEMENTS / MILESTONES */}
+      {content.achievementsText.trim() && (
+        <section className="section bg-primary-900 text-white">
+          <div className="container mx-auto">
+            <div className="mx-auto mb-10 max-w-xl text-center">
+              <Trophy className="mx-auto mb-4 h-9 w-9 text-blue-200" />
+              <h2 className="text-3xl text-white md:text-4xl">Our Achievements</h2>
+            </div>
+            <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
+              {content.achievementsText
+                .split("\n")
+                .map((line) => line.trim())
+                .filter(Boolean)
+                .map((line, i) => (
+                  <div key={i} className="flex items-start gap-3 rounded-lg bg-white/5 p-4">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-blue-300" />
+                    <span className="text-sm text-blue-50">{line}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* SERVICES (admin-editable, images from database) */}
       {services.length > 0 && (
         <section className="section bg-slate-50">
@@ -220,8 +246,9 @@ export default async function HomePage() {
                       <h3 className="mb-1 text-base">{p.name}</h3>
                       <p className="mb-3 line-clamp-2 text-sm text-slate-600">{p.description}</p>
                       <p className="text-lg font-bold text-primary-700">
-                        Rs. {p.price.toLocaleString("en-PK")}
-                        <span className="text-sm font-normal text-slate-500">{p.priceLabel}</span>
+                        {p.price != null
+                          ? <>Rs. {p.price.toLocaleString("en-PK")}<span className="text-sm font-normal text-slate-500">{p.priceLabel}</span></>
+                          : <span className="text-sm font-semibold text-slate-500">Contact for Price</span>}
                       </p>
                     </CardContent>
                   </Card>
