@@ -13,6 +13,33 @@ datasource db {
 }
 
 // ---------------------------------------------------------------------------
+// Public user accounts (signup/login on the website, separate from the
+// single hard-coded admin account in src/lib/auth.ts)
+// ---------------------------------------------------------------------------
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  emailVerified Boolean   @default(false)
+  banned        Boolean   @default(false)
+  // Any session issued BEFORE this timestamp is treated as invalid — this
+  // is how "Force Logout" / "Ban" instantly end an already-logged-in
+  // session even though JWTs can't normally be revoked directly.
+  forceLogoutAt DateTime?
+  lastActiveAt  DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
 // Products — photocopiers / printers available for rent or sale
 // ---------------------------------------------------------------------------
 model Product {

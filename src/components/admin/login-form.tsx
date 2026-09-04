@@ -20,7 +20,7 @@ export function LoginForm() {
     setError(null);
     setLoading(true);
 
-    const result = await signIn("credentials", {
+    const result = await signIn("admin-login", {
       username,
       password,
       redirect: false,

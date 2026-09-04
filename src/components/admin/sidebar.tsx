@@ -12,6 +12,7 @@ import {
   ExternalLink,
   Layers,
   Building2,
+  Users2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LogoutButton } from "@/components/admin/logout-button";
@@ -22,6 +23,7 @@ const links = [
   { href: "/admin/dashboard/products", label: "Products", icon: Package },
   { href: "/admin/dashboard/services", label: "Services Section", icon: Layers },
   { href: "/admin/dashboard/clients", label: "Client Logos", icon: Building2 },
+  { href: "/admin/dashboard/users", label: "Online Users", icon: Users2 },
   { href: "/admin/dashboard/content", label: "Website Content", icon: FileText },
   { href: "/admin/dashboard/contact-info", label: "Contact Info", icon: Phone },
   { href: "/admin/dashboard/messages", label: "Messages", icon: MessageSquare },
