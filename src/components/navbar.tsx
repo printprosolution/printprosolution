@@ -4,8 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, User, LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -21,10 +20,9 @@ interface NavbarProps {
   contactPhone: string;
   companyName: string;
   logoUrl: string;
-  userName?: string | null; // present only when a regular user is logged in
 }
 
-export function Navbar({ contactPhone, companyName, logoUrl, userName }: NavbarProps) {
+export function Navbar({ contactPhone, companyName, logoUrl }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -60,23 +58,6 @@ export function Navbar({ contactPhone, companyName, logoUrl, userName }: NavbarP
             <Phone className="h-4 w-4 text-primary-600" />
             {contactPhone}
           </a>
-          {userName ? (
-            <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1.5 text-sm font-semibold text-slate-700">
-                <User className="h-4 w-4 text-primary-600" /> {userName}
-              </span>
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-red-600"
-              >
-                <LogOut className="h-4 w-4" /> Logout
-              </button>
-            </div>
-          ) : (
-            <Link href="/login" className="text-sm font-semibold text-slate-600 hover:text-primary-600">
-              Login
-            </Link>
-          )}
           <Link href="/contact">
             <Button size="sm">Get a Quote</Button>
           </Link>
@@ -104,22 +85,6 @@ export function Navbar({ contactPhone, companyName, logoUrl, userName }: NavbarP
                 {link.label}
               </Link>
             ))}
-            {userName ? (
-              <button
-                onClick={() => { setOpen(false); signOut({ callbackUrl: "/" }); }}
-                className="rounded-md px-3 py-3 text-left text-sm font-semibold text-red-600 hover:bg-red-50"
-              >
-                Logout ({userName})
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-primary-50 hover:text-primary-700"
-              >
-                Login
-              </Link>
-            )}
             <Link href="/contact" onClick={() => setOpen(false)} className="mt-2">
               <Button className="w-full">Get a Quote</Button>
             </Link>
