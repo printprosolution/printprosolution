@@ -2,45 +2,36 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Lock } from "lucide-react";
 
 export function LoginForm() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlError = searchParams.get("error");
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    e.stopPropagation();
-    setError(null);
-    setLoading(true);
+    setSubmitting(true);
 
-    try {
-      const result = await signIn("admin-login", {
-        username,
-        password,
-        redirect: false,
-      });
-
-      setLoading(false);
-
-      if (result?.error) {
-        setError("Invalid username or password.");
-        return;
-      }
-
-      router.push("/admin/dashboard");
-      router.refresh();
-    } catch {
-      setLoading(false);
-      setError("Something went wrong contacting the server. Please check your internet connection and try again.");
-    }
+    // Let NextAuth handle the full redirect itself (POST credentials ->
+    // set session cookie -> redirect to callbackUrl on success, or back
+    // to /admin?error=... on failure). This avoids the client-side race
+    // condition where router.push() could fire before the session cookie
+    // was actually written by the browser.
+    await signIn("admin-login", {
+      username,
+      password,
+      callbackUrl: "/admin/dashboard",
+    });
+    // Note: no code runs after this on success — the browser navigates
+    // away. setSubmitting(false) is only reached if signIn itself throws.
   }
 
   return (
@@ -48,10 +39,10 @@ export function LoginForm() {
       onSubmit={handleSubmit}
       className="space-y-5 rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-xl"
     >
-      {error && (
+      {urlError && (
         <div className="flex items-center gap-2 rounded-md bg-red-950 px-4 py-3 text-sm text-red-300">
           <AlertCircle className="h-4 w-4 shrink-0" />
-          {error}
+          Invalid username or password.
         </div>
       )}
 
@@ -80,9 +71,9 @@ export function LoginForm() {
           required
         />
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full" disabled={submitting}>
         <Lock className="h-4 w-4" />
-        {loading ? "Signing in..." : "Login"}
+        {submitting ? "Signing in..." : "Login"}
       </Button>
     </form>
   );
