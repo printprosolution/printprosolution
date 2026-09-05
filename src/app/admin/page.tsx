@@ -10,7 +10,11 @@ import { LoginForm } from "@/components/admin/login-form";
 // by <AdminHashRedirect /> in the root layout. If a valid session already
 // exists (the admin logged in earlier and the 30-day cookie is still
 // valid) we skip straight to the dashboard — no repeated password prompts.
-export default async function AdminGatePage() {
+export default async function AdminGatePage({
+  searchParams,
+}: {
+  searchParams: { error?: string };
+}) {
   const session = await getServerSession(authOptions);
 
   if (session) {
@@ -37,7 +41,7 @@ export default async function AdminGatePage() {
           <h1 className="text-xl font-bold text-white">Admin Login</h1>
           <p className="mt-1 text-sm text-slate-400">Restricted area — authorised access only</p>
         </div>
-        <LoginForm />
+        <LoginForm hasError={!!searchParams.error} />
       </div>
     </div>
   );
