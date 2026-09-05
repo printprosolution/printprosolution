@@ -17,24 +17,30 @@ export function LoginForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    e.stopPropagation();
     setError(null);
     setLoading(true);
 
-    const result = await signIn("admin-login", {
-      username,
-      password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn("admin-login", {
+        username,
+        password,
+        redirect: false,
+      });
 
-    setLoading(false);
+      setLoading(false);
 
-    if (result?.error) {
-      setError("Invalid username or password.");
-      return;
+      if (result?.error) {
+        setError("Invalid username or password.");
+        return;
+      }
+
+      router.push("/admin/dashboard");
+      router.refresh();
+    } catch {
+      setLoading(false);
+      setError("Something went wrong contacting the server. Please check your internet connection and try again.");
     }
-
-    router.push("/admin/dashboard");
-    router.refresh();
   }
 
   return (
@@ -53,6 +59,7 @@ export function LoginForm() {
         <Label htmlFor="username" className="text-slate-300">Username</Label>
         <Input
           id="username"
+          name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="border-slate-700 bg-slate-800 text-white"
@@ -64,6 +71,7 @@ export function LoginForm() {
         <Label htmlFor="password" className="text-slate-300">Password</Label>
         <Input
           id="password"
+          name="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

@@ -28,7 +28,11 @@ export default async function AdminGatePage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <div className="relative mx-auto mb-4 h-14 w-56">
-            <Image src={content.logoUrl} alt={content.companyName} fill unoptimized className="object-contain brightness-0 invert" />
+            {content.logoUrl ? (
+              <Image src={content.logoUrl} alt={content.companyName} fill unoptimized className="object-contain brightness-0 invert" />
+            ) : (
+              <span className="block text-center text-lg font-bold text-white">{content.companyName}</span>
+            )}
           </div>
           <h1 className="text-xl font-bold text-white">Admin Login</h1>
           <p className="mt-1 text-sm text-slate-400">Restricted area — authorised access only</p>
